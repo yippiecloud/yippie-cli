@@ -94,7 +94,9 @@ cognitoUser.authenticateUser(authenticationDetails, {
         zip.addLocalFolder(join(process.cwd(), folder));
 
         console.log(`Uploading file ...`);
-        await s3.upload({ Bucket: bucketName, Key: `${username}/${folder}.zip`, Body: zip.toBuffer() }).promise();
+        await s3
+          .upload({ Bucket: bucketName, Key: `${username}/${folder}-${Date.now()}.zip`, Body: zip.toBuffer() })
+          .promise();
 
         console.log(`Deploying project (up to 5 minutes) ...`);
         const fileContent = readFileSync(join(process.cwd(), folder, `.yippie.json`));
