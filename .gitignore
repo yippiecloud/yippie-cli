@@ -4,4 +4,4 @@ build
 file:
 *.d.ts
 .env
-.js
+*.js
