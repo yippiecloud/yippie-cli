@@ -1,0 +1,31 @@
+{
+  "name": "@yippiecloud/yippie-cli",
+  "private": true,
+  "version": "1.0.0",
+  "bin": {
+    "yippie": "bin/yippie.js"
+  },
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/command-line-args": "5.2.0",
+    "@types/command-line-usage": "5.0.2",
+    "@types/node": "16.7.2",
+    "esbuild": "0.12.23",
+    "esbuild-node-externals": "1.3.0",
+    "prettier": "2.3.2",
+    "tslib": "2.3.1",
+    "typescript": "4.3.5",
+    "@types/adm-zip": "0.4.34"
+  },
+  "dependencies": {
+    "amazon-cognito-identity-js": "5.1.0",
+    "aws-sdk": "2.976.0",
+    "dotenv": "10.0.0",
+    "command-line-args": "5.2.0",
+    "command-line-usage": "6.1.1",
+    "adm-zip": "0.5.5"
+  }
+}

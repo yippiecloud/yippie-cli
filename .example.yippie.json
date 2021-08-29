@@ -1,0 +1,7 @@
+{
+  "id": "gmdnlf",
+  "type": "static",
+  "environment": "production",
+  "description": "An static website example project.",
+  "domains": []
+}
