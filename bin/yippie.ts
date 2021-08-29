@@ -108,7 +108,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
               ...yippieConfig,
               username,
               bucketName,
-              zipFileName: `${folder}.zip`,
+              zipFileName: `${folder}-${Date.now()}.zip`,
             }),
           })
           .promise();
