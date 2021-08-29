@@ -2,7 +2,7 @@
 
 import { join } from 'path';
 import { config } from 'dotenv';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import AWS from 'aws-sdk';
 import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import commandLineArgs from 'command-line-args';
@@ -115,11 +115,17 @@ cognitoUser.authenticateUser(authenticationDetails, {
 
         verbose && console.log(Buffer.from(LogResult, 'base64').toString('utf-8'));
 
-        console.log('Done!');
-
         const response = JSON.parse(Payload.toString());
-        console.log(`Project ID: ${response.projectId}`);
+
+        console.log('Updating config file ...');
+        writeFileSync(
+          join(process.cwd(), folder, `.yippie.json`),
+          JSON.stringify({ ...yippieConfig, id: response.projectId, productionUrl: response.productionUrl }, null, 4)
+        );
+
         console.log(`Production URL: ${response.productionUrl}`);
+
+        console.log('Done!');
       } catch (error) {
         console.error(error.message);
         process.exit(1);
