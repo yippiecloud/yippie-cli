@@ -90,12 +90,13 @@ cognitoUser.authenticateUser(authenticationDetails, {
 
       try {
         console.log(`Zipping file(s) ...`);
+        const timestamp = Date.now();
         const zip = new AdmZip();
         zip.addLocalFolder(join(process.cwd(), folder));
 
         console.log(`Uploading file ...`);
         await s3
-          .upload({ Bucket: bucketName, Key: `${username}/${folder}-${Date.now()}.zip`, Body: zip.toBuffer() })
+          .upload({ Bucket: bucketName, Key: `${username}/${folder}-${timestamp}.zip`, Body: zip.toBuffer() })
           .promise();
 
         console.log(`Deploying project (up to 5 minutes) ...`);
@@ -110,7 +111,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
               ...yippieConfig,
               username,
               bucketName,
-              zipFileName: `${folder}-${Date.now()}.zip`,
+              zipFileName: `${folder}-${timestamp}.zip`,
             }),
           })
           .promise();
