@@ -1,6 +1,8 @@
+node_modules
 *.ts
+*.mjs
+tsconfig.json
 !*.d.ts
-
-# CDK asset staging directory
-.cdk.staging
-cdk.out
+.env
+env.template
+.prettierrc

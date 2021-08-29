@@ -1,10 +1,6 @@
 .DS_Store
 node_modules
-.svelte-kit
 build
 file:
-cdk.out
-.cdk.staging
-cdk.out
 *.d.ts
-!globals.d.ts
+.env
