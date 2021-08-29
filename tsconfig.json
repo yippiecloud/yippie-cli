@@ -2,6 +2,7 @@
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "declaration": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }

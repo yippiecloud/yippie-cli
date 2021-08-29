@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { join } from 'path';
 import { config } from 'dotenv';
 import { readFileSync } from 'fs';
@@ -6,6 +8,7 @@ import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cogn
 import commandLineArgs from 'command-line-args';
 import commandLineUsage from 'command-line-usage';
 import AdmZip from 'adm-zip';
+import { version } from '../package.json';
 
 const optionDefinitions = [
   {
@@ -78,6 +81,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
       }),
     });
     (AWS.config.credentials as any).refresh(async (error: any) => {
+      console.log(`Yippie cloud CLI v${version}`);
       if (error) return console.error(error.message);
       console.log('Login successfully!');
 
@@ -93,7 +97,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
         await s3.upload({ Bucket: bucketName, Key: `${username}/${folder}.zip`, Body: zip.toBuffer() }).promise();
 
         console.log(`Deploying project (up to 5 minutes) ...`);
-        const fileContent = readFileSync(join(process.cwd(), `.${folder}.yippie.json`));
+        const fileContent = readFileSync(join(process.cwd(), folder, `.yippie.json`));
         const yippieConfig = JSON.parse(fileContent.toString());
 
         const { LogResult, Payload } = await lambda

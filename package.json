@@ -1,8 +1,8 @@
 {
   "name": "@yippiecloud/cli",
-  "version": "1.0.3",
+  "version": "1.0.12",
   "bin": {
-    "yippie": "bin/yippie.js"
+    "yippie": "./bin/yippie.js"
   },
   "scripts": {
     "build": "node esbuild.config.mjs",
