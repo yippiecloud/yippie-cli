@@ -1,6 +1,6 @@
 {
   "name": "@yippiecloud/cli",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "bin": {
     "yippie": "./bin/yippie.js"
   },
