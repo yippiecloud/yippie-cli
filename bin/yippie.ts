@@ -29,7 +29,7 @@ if (options.help) {
   const usage = commandLineUsage([
     { header: 'Usage', content: 'yippie example' },
     { header: 'Options', optionList: optionDefinitions },
-    { content: 'Project home: {underline https://www.yippie.cloud}' },
+    { content: 'Home: {underline https://www.yippie.cloud}' },
   ]);
   console.log(usage);
 }
@@ -99,7 +99,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
           .upload({ Bucket: bucketName, Key: `${username}/${folder}-${timestamp}.zip`, Body: zip.toBuffer() })
           .promise();
 
-        console.log(`Deploying project...`);
+        console.log(`Deploying... (up to 5 minutes)`);
         const fileContent = readFileSync(join(process.cwd(), folder, `.yippie.json`));
         const yippieConfig = JSON.parse(fileContent.toString());
 
@@ -118,12 +118,13 @@ cognitoUser.authenticateUser(authenticationDetails, {
 
         verbose && console.log(Buffer.from(LogResult, 'base64').toString('utf-8'));
 
-        const { id } = JSON.parse(Payload.toString());
+        const { id, productionUrl } = JSON.parse(Payload.toString());
 
         console.log('Updating config file ...');
         writeFileSync(join(process.cwd(), folder, `.yippie.json`), JSON.stringify({ ...yippieConfig, id }, null, 4));
 
-        console.log('Deploy in progress...');
+        console.log(`Deployment URL: ${productionUrl}`);
+        console.log('Done.');
       } catch (error) {
         console.error(error.message);
         process.exit(1);
