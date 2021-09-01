@@ -118,15 +118,10 @@ cognitoUser.authenticateUser(authenticationDetails, {
 
         verbose && console.log(Buffer.from(LogResult, 'base64').toString('utf-8'));
 
-        const response = JSON.parse(Payload.toString());
+        const id = JSON.parse(Payload.toString());
 
         console.log('Updating config file ...');
-        writeFileSync(
-          join(process.cwd(), folder, `.yippie.json`),
-          JSON.stringify({ ...yippieConfig, id: response.projectId, productionUrl: response.productionUrl }, null, 4)
-        );
-
-        console.log(`Production URL: ${response.productionUrl}`);
+        writeFileSync(join(process.cwd(), folder, `.yippie.json`), JSON.stringify({ ...yippieConfig, id }, null, 4));
 
         console.log('Done!');
       } catch (error) {
