@@ -99,7 +99,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
           .upload({ Bucket: bucketName, Key: `${username}/${folder}-${timestamp}.zip`, Body: zip.toBuffer() })
           .promise();
 
-        console.log(`Deploying... (up to 5 minutes)`);
+        console.log(`Deploying...`);
         const fileContent = readFileSync(join(process.cwd(), folder, `.yippie.json`));
         const yippieConfig = JSON.parse(fileContent.toString());
 
