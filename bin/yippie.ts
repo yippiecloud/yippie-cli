@@ -92,15 +92,16 @@ cognitoUser.authenticateUser(authenticationDetails, {
         console.log(`Zipping file(s) ...`);
         const timestamp = Date.now();
         const zip = new AdmZip();
+        zip.addLocalFile(join(process.cwd(), `yippie.json`));
         zip.addLocalFolder(join(process.cwd(), folder));
-
+        zip.writeZip('ll.zip');
         console.log(`Uploading file ...`);
         await s3
           .upload({ Bucket: bucketName, Key: `${username}/${folder}-${timestamp}.zip`, Body: zip.toBuffer() })
           .promise();
 
         console.log(`Deploying... (up to 5 minutes)`);
-        const fileContent = readFileSync(join(process.cwd(), folder, `.yippie.json`));
+        const fileContent = readFileSync(join(process.cwd(), folder, `yippie.json`));
         const yippieConfig = JSON.parse(fileContent.toString());
 
         const { LogResult, Payload } = await lambda
