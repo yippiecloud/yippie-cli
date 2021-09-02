@@ -109,7 +109,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
           .promise();
 
         console.log(`Deploying...`);
-        const fileContent = readFileSync(join(process.cwd(), folder, `yippie.json`));
+        const fileContent = readFileSync(yippieConfigDefaultPath);
         const yippieConfig = JSON.parse(fileContent.toString());
 
         const { LogResult, Payload } = await lambda
