@@ -1,6 +1,6 @@
 {
   "name": "@yippiecloud/cli",
-  "version": "1.0.43",
+  "version": "1.0.44",
   "bin": {
     "yippie": "./bin/yippie.js"
   },
@@ -20,11 +20,11 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
+    "adm-zip": "0.5.5",
     "amazon-cognito-identity-js": "5.1.0",
     "aws-sdk": "2.976.0",
-    "dotenv": "10.0.0",
     "command-line-args": "5.2.0",
     "command-line-usage": "6.1.1",
-    "adm-zip": "0.5.5"
+    "dotenv": "10.0.0"
   }
 }
