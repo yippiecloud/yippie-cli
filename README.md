@@ -1,5 +1,7 @@
 # Yippie Cloud - CLI
 
+The [yippie.cloud](https://www.yippie.cloud) CLI.
+
 ## Setup
 
 1. Sign up using the [Log In](https://www.yippie.cloud) link
