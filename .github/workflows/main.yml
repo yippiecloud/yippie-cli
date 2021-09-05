@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  AWS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          registry-url: https://registry.npmjs.org/
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run build
+        env:
+          YIPPIE_USERPOOLID: eu-central-1_zHXNt56dU
+          YIPPIE_CLIENTID: 5brts50g06t59npkbv8t3r2tva
+          YIPPIE_BUCKET: yippiecloud-artifacts
+          YIPPIE_REGION: eu-central-1
+          YIPPIE_IDENTITYPOOLID: eu-central-1:346e8d6c-6386-4f82-8100-0ce273eae863
+          YIPPIE_ARTIFACTDEPLOMENT_FUNCTION: yippiecloud-artifact-deploy-function
+
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
