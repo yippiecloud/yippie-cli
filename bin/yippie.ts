@@ -2,7 +2,7 @@
 
 import { join } from 'path';
 import { config } from 'dotenv';
-import { readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import AWS from 'aws-sdk';
 import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import commandLineArgs from 'command-line-args';
@@ -92,7 +92,16 @@ cognitoUser.authenticateUser(authenticationDetails, {
         console.log(`Zipping file(s) ...`);
         const timestamp = Date.now();
         const zip = new AdmZip();
-        zip.addLocalFolder(join(process.cwd(), folder));
+        let yippieConfigDefaultPath = join(process.cwd(), folder, `yippie.json`);
+
+        if (existsSync(yippieConfigDefaultPath)) {
+          zip.addLocalFile(yippieConfigDefaultPath);
+        } else if (existsSync(join(process.cwd(), `yippie.json`))) {
+          yippieConfigDefaultPath = join(process.cwd(), `yippie.json`);
+          zip.addLocalFile(yippieConfigDefaultPath);
+        } else {
+          throw new Error(`yippie.json does not exists.`);
+        }
 
         console.log(`Uploading file ...`);
         await s3
@@ -100,7 +109,7 @@ cognitoUser.authenticateUser(authenticationDetails, {
           .promise();
 
         console.log(`Deploying...`);
-        const fileContent = readFileSync(join(process.cwd(), folder, `.yippie.json`));
+        const fileContent = readFileSync(yippieConfigDefaultPath);
         const yippieConfig = JSON.parse(fileContent.toString());
 
         const { LogResult, Payload } = await lambda
@@ -121,9 +130,10 @@ cognitoUser.authenticateUser(authenticationDetails, {
         const id = JSON.parse(Payload.toString());
 
         console.log('Updating config file ...');
-        writeFileSync(join(process.cwd(), folder, `.yippie.json`), JSON.stringify({ ...yippieConfig, id }, null, 4));
+        writeFileSync(yippieConfigDefaultPath, JSON.stringify({ ...yippieConfig, id }, null, 4));
 
         console.log('Done!');
+        process.exit(0);
       } catch (error) {
         console.error(error.message);
         process.exit(1);
