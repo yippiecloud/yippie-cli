@@ -17,10 +17,10 @@ jobs:
           node-version: '14'
           registry-url: https://registry.npmjs.org/
       - name: Install
-        run: npm install
+        run: yarn
 
       - name: Build
-        run: npm run build
+        run: yarn build
         env:
           YIPPIE_USERPOOLID: eu-central-1_zHXNt56dU
           YIPPIE_CLIENTID: 5brts50g06t59npkbv8t3r2tva
@@ -30,6 +30,6 @@ jobs:
           YIPPIE_ARTIFACTDEPLOMENT_FUNCTION: yippiecloud-artifact-deploy-function
 
       - name: Publish
-        run: npm publish --access public
+        run: yarn publish --access public --patch
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
