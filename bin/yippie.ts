@@ -103,6 +103,8 @@ cognitoUser.authenticateUser(authenticationDetails, {
           throw new Error(`yippie.json does not exists.`);
         }
 
+        zip.addLocalFolder(join(process.cwd(), folder));
+
         console.log(`Uploading file ...`);
         await s3
           .upload({ Bucket: bucketName, Key: `${username}/${folder}-${timestamp}.zip`, Body: zip.toBuffer() })
